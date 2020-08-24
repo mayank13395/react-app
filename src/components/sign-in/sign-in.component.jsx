@@ -1,7 +1,8 @@
 import React from 'react';
 import './sign-in.styles.scss'
 import { FormControl, InputLabel, Input, FormHelperText, FormGroup,Button } from '@material-ui/core';
-import {signInWithGoogle, auth} from  '../../firebase/firebase.utils'
+import {signInWithGoogle, auth} from  '../../firebase/firebase.utils';
+import {withRouter} from 'react-router-dom'
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -21,9 +22,15 @@ class SignIn extends React.Component {
     }
 
     handleSubmit = async (event) => {
+        console.log("event",event);
         event.preventDefault();
         const {email, password} = this.state;
-        await auth.signInWithEmailAndPassword(email,password);
+        try {
+            await auth.signInWithEmailAndPassword(email,password);
+            this.props.history.push('/');
+        } catch (error) {
+            console.log("error while signin in");
+        }
         this.setState({
             email: "",
             password: ""
@@ -62,7 +69,7 @@ class SignIn extends React.Component {
                         />
                         {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
                     </FormControl>
-                    <Button className = "custom-padding"  type = "submit" variant="contained" color="primary">
+                    <Button onClick = {this.handleSubmit} className = "custom-padding"  type = "submit" variant="contained" color="primary">
                         Submit Form
                     </Button>
 
@@ -75,6 +82,6 @@ class SignIn extends React.Component {
         )
     }
 }
+ 
 
-
-export default SignIn;
+export default withRouter (SignIn);

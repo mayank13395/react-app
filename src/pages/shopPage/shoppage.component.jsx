@@ -22,6 +22,9 @@ class ShopPage extends React.Component{
         return (
             <div className="shop-page">
                 <Switch>
+                {/* <Route exact path={`${match.path}`} component = {CollectionsOverview} />
+                     <Route path={`${match.path}/:collectionId`} component = {CollectionPage}  /> */}
+               
                 {/* <Route exact path={`${match.path}`} component = {CollectionsOverview} /> */}
                     <Route exact path={`${match.path}`} render = {(props)=> <CollectionsOverviewWithSpinner isLoading = {loading} {...props} /> } />
                      <Route path={`${match.path}/:collectionId`} render = {(props)=> <CollectionPageWithSpinner isLoading = {loading} {...props} /> }  />
@@ -36,15 +39,16 @@ class ShopPage extends React.Component{
         const {updateCollections} = this.props;
        const collectionRef = firestore.collection('collections');
        collectionRef.onSnapshot( snapshot=>{
-             const collectionsArray =   convertCollectionsSnapshotToMap(snapshot);
-             console.log("",collectionsArray);
-             updateCollections(collectionsArray);
+             const collectionsMap =   convertCollectionsSnapshotToMap(snapshot);
+             updateCollections(collectionsMap);
              this.setState({loading: false});
              });
     }
+
+    
 }
 
 const mapDispatchToProps = (dispatch) =>({
-   updateCollections : collectionsArray => dispatch(updateCollections(collectionsArray))
+   updateCollections : collectionsMap => dispatch(updateCollections(collectionsMap))
 })
 export default connect(null,mapDispatchToProps) (ShopPage);

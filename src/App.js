@@ -7,6 +7,7 @@ import Header from './components/header/header.component';
 import AuthPage from './pages/authPage/authPage.component';
 import SignIn from './components/sign-in/sign-in.component';
 import {auth} from './firebase/firebase.utils'
+import checkoutComponent from './components/checkout/checkout.component';
 
 
 class  App extends React.Component {
@@ -41,8 +42,9 @@ class  App extends React.Component {
       <Header currentUser = {this.state.currentUser} />
       <Switch>
        <Route exact path = '/' component = {HomePage} />
-       <Route exact path = '/shop' component = {ShopPage} />
+       <Route  path = '/shop' component = {ShopPage} />
        <Route exact path = '/signin' component = {AuthPage} />
+       <Route exact path = '/checkout' component = {checkoutComponent} />
       </Switch>
     </div>
   );
